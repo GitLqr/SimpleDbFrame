@@ -1,15 +1,19 @@
 package com.lqr.simpledbframe.customer;
 
-import com.lqr.simpledbframe.customer.db.annotation.TbField;
-import com.lqr.simpledbframe.customer.db.annotation.TbName;
+import com.lqr.simpledbframe.customer.db.anno.TbField;
+import com.lqr.simpledbframe.customer.db.anno.TbName;
 
-@TbName("t_user")
+@TbName("tb_user")
 public class User {
 
-    @TbField("tb_name")
+    @TbField(value = "tb_name", length = 30)
     private String username;
-    @TbField("tb_password")
+
+    @TbField(value = "tb_password", length = 20)
     private String password;
+
+    @TbField(value = "tb_age", length = 11)
+    private Integer age;
 
     public User() {
     }
@@ -17,6 +21,12 @@ public class User {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    public User(String username, String password, int age) {
+        this.username = username;
+        this.password = password;
+        this.age = age;
     }
 
     public String getUsername() {
@@ -35,8 +45,16 @@ public class User {
         this.password = password;
     }
 
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
     @Override
     public String toString() {
-        return "[" + this.username + " , " + this.password + "]\n";
+        return "[username:" + this.username + ", password:" + this.getPassword() + ", age:" + this.getAge() + "]";
     }
 }

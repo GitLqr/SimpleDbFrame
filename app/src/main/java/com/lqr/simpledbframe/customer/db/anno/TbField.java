@@ -1,12 +1,18 @@
-package com.lqr.simpledbframe.customer.db.annotation;
+package com.lqr.simpledbframe.customer.db.anno;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.TYPE)
+/**
+ * 表字段注解
+ */
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface TbName {
+public @interface TbField {
     String value();
+
+    int length();
+
 }

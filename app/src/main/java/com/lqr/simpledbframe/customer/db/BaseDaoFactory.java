@@ -1,55 +1,48 @@
 package com.lqr.simpledbframe.customer.db;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
 
-import java.util.HashMap;
-import java.util.Map;
-
+/**
+ * @创建者 CSDN_LQR
+ * @描述 Dao类工厂(负责打开数据库，生产对应的表操作对象)
+ */
 public class BaseDaoFactory {
 
-    private static BaseDaoFactory mInstance;
     private static String mDbPath;
-    private SQLiteDatabase mSqLiteDatabase;
-    private Map<String, BaseDao> mBaseDaoMap;
+    private SQLiteDatabase mDatabase;
 
-    /**
-     * 初始化数据库路径（建议在Application中调用）
-     */
+    private static class Instance {
+        public static BaseDaoFactory INSTANCE = new BaseDaoFactory();
+    }
+
+    public static BaseDaoFactory getInstance() {
+        return Instance.INSTANCE;
+    }
+
+    // 初始化数据库位置
     public static void init(String dbPath) {
         mDbPath = dbPath;
     }
 
-    private BaseDaoFactory() {
-        mSqLiteDatabase = SQLiteDatabase.openOrCreateDatabase(mDbPath, null);
-        mBaseDaoMap = new HashMap<>();
-    }
-
-    public static BaseDaoFactory getInstance() {
-        if (mInstance == null) {
-            synchronized (BaseDaoFactory.class) {
-                if (mInstance == null) {
-                    mInstance = new BaseDaoFactory();
-                }
-            }
+    public BaseDaoFactory() {
+        if (TextUtils.isEmpty(mDbPath)) {
+            throw new RuntimeException("在使用BaseDaoFactory之前，请调用BaseDaoFactory.init()初始化好数据库路径。");
         }
-        return mInstance;
+        // 打开数据库，得到数据库对象
+        mDatabase = SQLiteDatabase.openOrCreateDatabase(mDbPath, null);
     }
 
-    public synchronized <T extends BaseDao<M>, M> T getDataHelper(Class<T> clazz, Class<M> entity) {
-//        if (mBaseDaoMap.get(clazz.getName()) != null) {
-//            return (T) mBaseDaoMap.get(clazz.getName());
-//        }
-        BaseDao baseDao = null;
+    public <T extends BaseDao<M>, M> T getDataHelper(Class<T> clazz, Class<M> entity) {
+        T baseDao = null;
         try {
             baseDao = clazz.newInstance();
-            baseDao.init(entity, mSqLiteDatabase);
-//            mBaseDaoMap.put(clazz.getName(), baseDao);
+            baseDao.init(mDatabase, entity);
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        return (T) baseDao;
+        return baseDao;
     }
-
 }

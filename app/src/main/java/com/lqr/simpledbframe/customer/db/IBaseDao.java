@@ -2,13 +2,16 @@ package com.lqr.simpledbframe.customer.db;
 
 import java.util.List;
 
+/**
+ * 基本的数据操作
+ */
 public interface IBaseDao<M> {
 
-    long insert(M entity);
+    Long insert(M entity);
 
-    int remove(M where);
+    Integer delete(M where);
 
-    int update(M entity, M where);
+    Integer update(M entitiy, M where);
 
     List<M> query(M where);
 
