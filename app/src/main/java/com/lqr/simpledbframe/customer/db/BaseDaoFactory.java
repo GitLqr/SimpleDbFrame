@@ -25,7 +25,7 @@ public class BaseDaoFactory {
         mDbPath = dbPath;
     }
 
-    public BaseDaoFactory() {
+    private BaseDaoFactory() {
         if (TextUtils.isEmpty(mDbPath)) {
             throw new RuntimeException("在使用BaseDaoFactory之前，请调用BaseDaoFactory.init()初始化好数据库路径。");
         }
