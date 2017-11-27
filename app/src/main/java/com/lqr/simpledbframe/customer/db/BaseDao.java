@@ -101,8 +101,8 @@ public abstract class BaseDao<M> implements IBaseDao<M> {
 
     private boolean genFieldMap() {
         mFieldMap = new HashMap<>();
-//        Field[] fields = mEntityClass.getFields();// 得到类中的public字段，包括父类。
-        Field[] fields = mEntityClass.getDeclaredFields();// 得到类中声明的字段（不管是public、protected、private），不包括父类。
+        Field[] fields = mEntityClass.getFields();// 得到类中的public字段，包括父类。
+//        Field[] fields = mEntityClass.getDeclaredFields();// 得到类中声明的字段（不管是public、protected、private），不包括父类。
         if (fields == null || fields.length == 0) {
             Log.e(TAG, "获取不到类中字段");
             return false;
@@ -163,7 +163,7 @@ public abstract class BaseDao<M> implements IBaseDao<M> {
 
     @Override
     public List<M> query(M where, String orderBy) {
-        return query(where, null, null, null);
+        return query(where, orderBy, null, null);
     }
 
     @Override

@@ -7,13 +7,13 @@ import com.lqr.simpledbframe.customer.db.anno.TbName;
 public class User {
 
     @TbField(value = "tb_name", length = 30)
-    private String username;
+    public String username;
 
     @TbField(value = "tb_password", length = 20)
-    private String password;
+    public String password;
 
     @TbField(value = "tb_age", length = 11)
-    private Integer age;
+    public Integer age;
 
     public User() {
     }
